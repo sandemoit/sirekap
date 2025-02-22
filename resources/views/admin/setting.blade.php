@@ -160,7 +160,7 @@
                             <div class="form-group">
                                 <label for="kata_sambutan">Kata Sambutan KepSek</label>
                                 <textarea class="form-control @error('kata_sambutan') is-invalid @enderror" id="kata_sambutan" name="kata_sambutan"
-                                    cols="30" rows="3" placeholder="Masukan kata sambutan kepala sekolah" required>{{ old('kata_sambutan', $setting['kata_sambutan']->value ?? '') }}</textarea>
+                                    cols="30" rows="8" placeholder="Masukan kata sambutan kepala sekolah" required>{{ old('kata_sambutan', $setting['kata_sambutan']->value ?? '') }}</textarea>
                                 @error('kata_sambutan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -212,7 +212,7 @@
                                         role="alert"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="kalender_akademik">Kalender Akademik</label>
                                 <input type="file"
                                     class="form-control @error('kalender_akademik') is-invalid @enderror"
@@ -221,7 +221,7 @@
                                     <span class="invalid-feedback"
                                         role="alert"><strong>{{ $message }}</strong></span>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>

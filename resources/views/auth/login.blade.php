@@ -23,7 +23,8 @@
                                 <div class="form-group mb-3">
                                     <label class="form-label">Password</label>
                                     <input type="password" name="password" id="password" placeholder="Password"
-                                        class="form-control @error('password') is-invalid @enderror" required>
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        value="{{ old('password') }}" required>
                                     @error('password')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

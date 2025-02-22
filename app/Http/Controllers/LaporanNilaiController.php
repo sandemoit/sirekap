@@ -53,6 +53,6 @@ class LaporanNilaiController extends Controller
         }
 
         $pdf = Pdf::loadView('pdf.rekap_nilai', $data);
-        return $pdf->download('Laporan_Nilai.pdf');
+        return $pdf->setPaper('a4', 'portrait')->setWarnings(false)->download('Laporan_Nilai.pdf');
     }
 }
