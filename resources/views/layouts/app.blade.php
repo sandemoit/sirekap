@@ -155,7 +155,7 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Laporan:</h6>
                             <a class="collapse-item" href="{{ route('report.kehadiran') }}">Laporan Kehadiran</a>
-                            <a class="collapse-item" href="#">Laporan Nilai</a>
+                            <a class="collapse-item" href="{{ route('report.nilai') }}">Laporan Nilai</a>
                         </div>
                     </div>
                 </li>

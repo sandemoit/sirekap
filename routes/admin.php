@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\LaporanKehadiranController;
+use App\Http\Controllers\LaporanNilaiController;
 use App\Http\Middleware\HasRoleAdmin;
 
 // manajemen siswa
@@ -57,5 +58,7 @@ Route::middleware(HasRoleAdmin::class)->group(function () {
 
     // laporan
     Route::get('/laporan/kehadiran', [LaporanKehadiranController::class, 'index'])->name('report.kehadiran');
-    Route::get('/rekap/pdf', [LaporanKehadiranController::class, 'exportPDF'])->name('rekap.pdf');
+    Route::get('/laporan/kehadiran/export', [LaporanKehadiranController::class, 'exportPDF'])->name('laporan.kehadiran.export');
+    Route::get('/laporan/nilai', [LaporanNilaiController::class, 'index'])->name('report.nilai');
+    Route::get('/laporan/nilai/export', [LaporanNilaiController::class, 'exportLaporanNilai'])->name('laporan.nilai.export');
 });

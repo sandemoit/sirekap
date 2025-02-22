@@ -75,6 +75,7 @@ class PenilaianController extends Controller
                     'assessment_name' => $request->nama_penilaian,
                     'score' => $nilai,
                     'semester' => configWeb('semester')->value,
+                    'tahun_ajaran' => configWeb('tahun_ajaran')->value,
                 ]);
             }
 

@@ -1,15 +1,14 @@
 <x-app-layout :title="$title">
     <div class="container">
-        <h2 class="text-center">Rekap Kehadiran Siswa</h2>
-
-        <form action="{{ route('laporan.kehadiran.export') }}" method="GET">
+        <h2 class="text-center">Rekap Nilai Siswa</h2>
+        <form action="{{ route('laporan.nilai.export') }}" method="GET">
             <div class="row">
                 <div class="col-md-4">
-                    <label for="kelas">Pilih Kelas:</label>
-                    <select name="kelas" id="kelas" class="form-control">
-                        <option value="all">Semua Kelas</option>
-                        @foreach ($kelas as $k)
-                            <option value="{{ $k->id }}">{{ $k->name }}</option>
+                    <label>Pilih Kelas:</label>
+                    <select name="kelas" class="form-control">
+                        <option value="">Semua Kelas</option>
+                        @foreach ($classes as $class)
+                            <option value="{{ $class->id }}">{{ $class->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -32,7 +31,8 @@
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Export PDF</button>
+            <br>
+            <button type="submit" class="btn btn-danger">Export PDF</button>
         </form>
     </div>
 </x-app-layout>
