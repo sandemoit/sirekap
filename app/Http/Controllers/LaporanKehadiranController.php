@@ -7,6 +7,7 @@ use App\Models\Classes;
 use App\Models\Kehadiran;
 use App\Models\Student;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,7 +70,61 @@ class LaporanKehadiranController extends Controller
             ];
         });
 
-        $pdf = Pdf::loadView('pdf.rekap_kehadiran', compact('data', 'startDate', 'endDate'));
+        $data = compact('data', 'startDate', 'endDate');
+
+        $pdf = Pdf::loadView('pdf.rekap_kehadiran', $data);
         return $pdf->setPaper('a4', 'landscape')->setWarnings(false)->download("Rekap_Kehadiran_{$bulan}_{$tahun}.pdf");
+    }
+
+    public function exportPDFPersen(Request $request)
+    {
+        $kelasId = $request->query('kelas', 'all');
+
+        $bulan = $request->query('bulan', date('m'));
+        $tahun = $request->query('tahun', date('Y'));
+
+        // Hitung jumlah hari aktif dalam bulan (tanpa Minggu)
+        $start = Carbon::create($tahun, $bulan, 1);
+        $end = $start->copy()->endOfMonth();
+        $jumlah_hari_aktif = $start->diffInDaysFiltered(fn($date) => $date->dayOfWeek != Carbon::SUNDAY, $end);
+
+        // Ambil data siswa sesuai filter
+        $query = Student::with(['kehadiran' => function ($q) use ($bulan, $tahun) {
+            $q->whereMonth('date', $bulan)
+                ->whereYear('date', $tahun);
+        }, 'class'])
+            ->select('id', 'name', 'class_id', 'nisn');
+
+        if ($kelasId !== 'all') {
+            $query->where('class_id', $kelasId);
+        }
+
+        $siswaList = $query->get();
+
+        // Hitung persen kehadiran tiap siswa
+        $rekapSiswa = [];
+        foreach ($siswaList as $siswa) {
+            // Hitung jumlah tiap status
+            $sakit = $siswa->kehadiran->where('status', 'S')->count();
+            $ijin = $siswa->kehadiran->where('status', 'I')->count();
+            $alpa = $siswa->kehadiran->where('status', 'A')->count();
+            $terlambat = $siswa->kehadiran->where('status', 'T')->count();
+            $hadir = $siswa->kehadiran->where('status', 'H')->count();
+
+            // Hitung persen
+            $rekapSiswa[] = [
+                'nama' => $siswa->name,
+                'kelas' => $siswa->class->name ?? '-',
+                'sakit' => $jumlah_hari_aktif ? ($sakit / $jumlah_hari_aktif) * 100 : 0,
+                'ijin' => $jumlah_hari_aktif ? ($ijin / $jumlah_hari_aktif) * 100 : 0,
+                'alpa' => $jumlah_hari_aktif ? ($alpa / $jumlah_hari_aktif) * 100 : 0,
+                'terlambat' => $jumlah_hari_aktif ? ($terlambat / $jumlah_hari_aktif) * 100 : 0,
+                'kehadiran' => $jumlah_hari_aktif ? ($hadir / $jumlah_hari_aktif) * 100 : 0,
+            ];
+        }
+
+        $pdf = Pdf::loadView('pdf.rekap_kehadiran_persen', compact('bulan', 'tahun', 'rekapSiswa', 'kelasId'));
+
+        return $pdf->setPaper('a4', 'landscape')->download("Rekap_Kehadiran_Persen_$bulan-$tahun.pdf");
     }
 }

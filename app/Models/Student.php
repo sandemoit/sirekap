@@ -23,9 +23,14 @@ class Student extends Model
         return $this->belongsTo(User::class, 'nama_wali', 'id');
     }
 
-    public function assessments(): HasMany
+    public function kehadiran()
     {
-        return $this->hasMany(Assessments::class);
+        return $this->hasMany(Kehadiran::class, 'student_id');
+    }
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessments::class, 'student_id');
     }
 
     public static function validateParentCredentials($nisn, $birth_date)

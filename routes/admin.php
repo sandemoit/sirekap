@@ -61,4 +61,6 @@ Route::middleware(HasRoleAdmin::class)->group(function () {
     Route::get('/laporan/kehadiran/export', [LaporanKehadiranController::class, 'exportPDF'])->name('laporan.kehadiran.export');
     Route::get('/laporan/nilai', [LaporanNilaiController::class, 'index'])->name('report.nilai');
     Route::get('/laporan/nilai/export', [LaporanNilaiController::class, 'exportLaporanNilai'])->name('laporan.nilai.export');
+    Route::get('/laporan/kehadiran/export-persen', [LaporanKehadiranController::class, 'exportPDFPersen'])
+        ->name('laporan.kehadiran.export.persen');
 });
