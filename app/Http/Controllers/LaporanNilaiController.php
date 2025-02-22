@@ -52,7 +52,7 @@ class LaporanNilaiController extends Controller
             return back()->with('error', 'Tidak ada data yang bisa diekspor.');
         }
 
-        $pdf = PDF::loadView('pdf.rekap_nilai', $data);
+        $pdf = Pdf::loadView('pdf.rekap_nilai', $data);
         return $pdf->download('Laporan_Nilai.pdf');
     }
 }

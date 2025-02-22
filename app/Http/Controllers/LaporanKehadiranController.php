@@ -69,7 +69,7 @@ class LaporanKehadiranController extends Controller
             ];
         });
 
-        $pdf = PDF::loadView('pdf.rekap_kehadiran', compact('data', 'startDate', 'endDate'));
+        $pdf = Pdf::loadView('pdf.rekap_kehadiran', compact('data', 'startDate', 'endDate'));
         return $pdf->setPaper('a4', 'landscape')->setWarnings(false)->download("Rekap_Kehadiran_{$bulan}_{$tahun}.pdf");
     }
 }
