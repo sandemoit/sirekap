@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\OrtangtuaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -33,6 +34,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    // ortu
+    Route::get('/ortu/login', [OrtangtuaController::class, 'index'])->name('ortu.login');
+    Route::post('/ortu/login', [OrtangtuaController::class, 'login'])->name('ortu.login');
+    Route::get('/ortu/logout', [OrtangtuaController::class, 'logout'])->name('ortu.logout');
 });
 
 Route::middleware('auth')->group(function () {

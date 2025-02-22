@@ -19,7 +19,7 @@ class CompetitionsController extends Controller
 
     public function add()
     {
-        $students = Student::select('id', 'name')->get();
+        $students = Student::select('id', 'name')->where('status', 'active')->get();
         $class = Classes::select('id', 'name')->get();
         $title = 'Tambah Kompetisi';
         return view('admin.competitions.add', compact('title', 'students', 'class'));

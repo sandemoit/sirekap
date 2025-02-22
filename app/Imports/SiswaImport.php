@@ -29,6 +29,7 @@ class SiswaImport implements ToCollection, WithHeadingRow
                     'name' => $row['nama'],
                     'nis' => $row['nis'],
                     'nisn' => $row['nisn'],
+                    'birth_date' => $row['tanggal_lahir'],
                     'gender' => $row['gender'],
                     'religion' => $row['religion'],
                     'class_id' => $class->id ?? null,

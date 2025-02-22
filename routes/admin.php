@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\LaporanKehadiranController;
 use App\Http\Middleware\HasRoleAdmin;
 
+// manajemen siswa
 Route::middleware(HasRoleAdmin::class)->group(function () {
-
-    // manajemen siswa
     Route::get('/siswa/list', [StudentController::class, 'index'])->name('students');
+    Route::get('/data/siswa', [StudentController::class, 'dataSiswa'])->name('students.data');
     Route::get('/siswa/add', [StudentController::class, 'add'])->name('students.add');
     Route::post('/siswa/add', [StudentController::class, 'store'])->name('students.store');
     Route::post('/siswa/destroy/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
@@ -20,7 +21,6 @@ Route::middleware(HasRoleAdmin::class)->group(function () {
     Route::put('/siswa/update/{id}', [StudentController::class, 'update'])->name('students.update');
     Route::get('/siswa/import', [StudentController::class, 'import'])->name('students.import');
     Route::post('/siswa/import', [StudentController::class, 'importProcess'])->name('students.importProcess');
-    Route::get('/data/siswa', [StudentController::class, 'data'])->name('students.data');
     Route::get('/kelas/list', [ClassesController::class, 'index'])->name('class');
     Route::post('/kelas/add', [ClassesController::class, 'store'])->name('class.add');
     Route::get('/kelas/destroy/{id}', [ClassesController::class, 'destroy'])->name('class.destroy');
@@ -51,4 +51,11 @@ Route::middleware(HasRoleAdmin::class)->group(function () {
     Route::post('/mapel/store', [MapelController::class, 'store'])->name('subject.store');
     Route::post('/mapel/destroy/{id}', [MapelController::class, 'destroy'])->name('subject.destroy');
     Route::get('/getMapel', [MapelController::class, 'getMapel'])->name('subject.getMapel');
+
+    // naik kelas
+    Route::post('/up-class', [StudentController::class, 'upClass'])->name('upclass');
+
+    // laporan
+    Route::get('/laporan/kehadiran', [LaporanKehadiranController::class, 'index'])->name('report.kehadiran');
+    Route::get('/rekap/pdf', [LaporanKehadiranController::class, 'exportPDF'])->name('rekap.pdf');
 });

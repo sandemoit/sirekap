@@ -125,7 +125,12 @@ class KehadiranController extends Controller
         $kehadiran = $query->get()->groupBy('student_id');
 
         $data = $kehadiran->map(function ($item, $key) use ($start, $end) {
-            $siswa = Student::find($key);
+            $siswa = Student::where('id', $key)->where('status', 'active')->first();
+
+            if (!$siswa) {
+                return null;
+            }
+
             $daysRange = range(
                 (int)date('d', strtotime($start)),
                 (int)date('d', strtotime($end))
@@ -161,7 +166,7 @@ class KehadiranController extends Controller
                 'rekap' => $rekap,
                 'summary' => $summary
             ];
-        });
+        })->filter();
 
         return view('user.kehadiran.rekap', compact('title', 'kelas', 'data'));
     }

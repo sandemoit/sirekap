@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\StudentController;
+use App\Http\Middleware\HasRoleGuru;
 use Illuminate\Support\Facades\Route;
 
 // kehadiran
@@ -19,3 +21,10 @@ Route::post('/penilaian/store', [PenilaianController::class, 'store'])->name('pe
 Route::post('/penilaian/get-siswa', [PenilaianController::class, 'getSiswa'])->name('penilaian.get-siswa');
 Route::get('/penilaian/import', [PenilaianController::class, 'import'])->name('penilaian.import');
 Route::post('/penilaian/import', [PenilaianController::class, 'importProcess'])->name('penilaian.importProcess');
+
+Route::middleware(HasRoleGuru::class)->group(function () {
+    // siswa
+    Route::get('/siswa', [StudentController::class, 'index'])->name('guru.students');
+    Route::post('/siswa/{id}', [StudentController::class, 'storeDeskripsi'])->name('guru.students.deskripsi');
+    Route::get('/siswa/data', [StudentController::class, 'data'])->name('guru.students.data');
+});

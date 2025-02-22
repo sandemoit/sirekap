@@ -19,5 +19,6 @@ Route::middleware('auth')->group(function () {
     require __DIR__ . '/kepsek.php';
     require __DIR__ . '/guru.php';
 });
+require __DIR__ . '/ortu.php';
 
 require __DIR__ . '/auth.php';

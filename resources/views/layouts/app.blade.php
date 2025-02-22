@@ -77,6 +77,16 @@
                 </li>
             @endif
 
+            @if (Auth::user()->role == 'guru')
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('guru.students') }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Siswa</span>
+                    </a>
+                </li>
+            @endif
+
             <!-- Nav Item - Kehadiran -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance"
@@ -144,7 +154,7 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Laporan:</h6>
-                            <a class="collapse-item" href="#">Laporan Kehadiran</a>
+                            <a class="collapse-item" href="{{ route('report.kehadiran') }}">Laporan Kehadiran</a>
                             <a class="collapse-item" href="#">Laporan Nilai</a>
                         </div>
                     </div>

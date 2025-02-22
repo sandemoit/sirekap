@@ -40,6 +40,17 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="birth_date">Tanggal Lahir</label>
+                                <input type="date" class="form-control @error('birth_date') is-invalid @enderror"
+                                    id="birth_date" name="birth_date" value="{{ old('birth_date') }}"
+                                    placeholder="Masukan tanggal lahir siswa" required>
+                                @error('birth_date')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="gender">Jenis Kelamin</label>
                                 <select class="form-control @error('gender') is-invalid @enderror" id="gender"
                                     name="gender" required>

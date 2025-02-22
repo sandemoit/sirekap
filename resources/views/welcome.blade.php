@@ -31,7 +31,8 @@
                 </div>
             </div>
         </div>
-    </section><!-- /About Section -->
+    </section>
+    <!-- /About Section -->
 
     <section id="gallery" class="events section">
         <div class="justify-content-center text-center mb-5" data-aos-delay="200" data-aos="fade-down">

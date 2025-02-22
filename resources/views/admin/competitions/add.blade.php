@@ -1,4 +1,7 @@
 <x-app-layout :title="$title">
+    @push('custom-css')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    @endpush
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -86,4 +89,10 @@
             </div>
         </div>
     </div>
+    @push('custom-js')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+        <script>
+            $('#student_id').select2();
+        </script>
+    @endpush
 </x-app-layout>

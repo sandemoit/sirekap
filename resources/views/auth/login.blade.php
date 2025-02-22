@@ -6,7 +6,7 @@
         <div class="container">
 
             <div class="row justify-content-center py-5">
-                <div class="col-6 gy-4">
+                <div class="col-lg-6 col-sm-12 gy-4">
                     <div class="card">
                         <div class="card-body">
                             <form class="php-email-form" method="POST" action="{{ route('login') }}">
@@ -34,6 +34,8 @@
                             </form>
                         </div>
                     </div>
+                    <a href="{{ route('ortu.login') }}" class="btn btn-primary mt-3">Masuk Sebagai Orang
+                        tua</a>
                 </div>
 
             </div>

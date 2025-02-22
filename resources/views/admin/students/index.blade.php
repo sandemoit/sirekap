@@ -5,10 +5,17 @@
 
     <div class="container-fluid">
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex justify-content-between">
             <h1 class="h3 mb-0 text-gray-800">{{ $title }}</h1>
-            <a href="{{ route('students.add') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+            <div class="d-sm-flex align-items-center justify-content-end mb-4">
+                <button id="btnUpClass" {{ configWeb('semester')->value == 2 ? '' : 'disabled' }}
+                    class="btn btn-sm btn-success shadow-sm mr-2">
+                    <i class="fas fa-arrow-up fa-sm text-white-50"></i> Naik Kelas
+                </button>
+
+                <a href="{{ route('students.add') }}" class="btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+            </div>
         </div>
 
         <div class="card shadow mb-4">
@@ -23,6 +30,7 @@
                                 <th>Name</th>
                                 <th>NIS</th>
                                 <th>NISN</th>
+                                <th>Tanggal Lahir</th>
                                 <th>Wali Kelas</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Agama</th>
@@ -41,6 +49,58 @@
 
         <script>
             $(document).ready(function() {
+                $('#btnUpClass').click(function(e) {
+                    e.preventDefault(); // Cegah reload
+
+                    Swal.fire({
+                        title: "Sedang Memproses...",
+                        html: "Mohon tunggu <b></b> detik.",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    });
+
+                    // Kirim AJAX ke route upClass
+                    $.ajax({
+                        url: "{{ route('upclass') }}",
+                        type: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                'content') // Wajib untuk Laravel
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: "Berhasil!",
+                                text: response.message,
+                                icon: response.status
+                            }).then(() => {
+                                location.reload(); // Reload halaman setelah sukses
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMessage = xhr.status + ': ' + xhr.statusText
+                            Swal.fire({
+                                title: "Gagal!",
+                                text: errorMessage,
+                                icon: "error"
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
                 $('#studentsTable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -56,6 +116,10 @@
                         {
                             data: 'nisn',
                             name: 'nisn'
+                        },
+                        {
+                            data: 'birth_date',
+                            name: 'birth_date'
                         },
                         {
                             data: 'wali_kelas',
