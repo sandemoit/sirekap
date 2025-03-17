@@ -43,12 +43,6 @@ Untuk proyek PHP:
 composer install
 ```
 
-Untuk proyek JavaScript/Node.js:
-
-```bash
-npm install
-```
-
 ### 5. Pengaturan Basis Data
 
 Konfigurasikan koneksi basis data Anda di file `.env`:
